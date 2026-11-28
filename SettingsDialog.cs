@@ -16,7 +16,6 @@ public class SettingsDialog : Form
     private TextBox _txtWeather = null!;
     private TextBox _txtProxy = null!;
     private ToggleSwitch _swProxy = null!;
-    private CheckBox _chkAutoStart = null!;
     private CheckBox _chkKeepLogin = null!;
     private CheckBox _chkAutoLogin = null!;
 
@@ -130,9 +129,26 @@ public class SettingsDialog : Form
         _swProxy.CheckedChanged += () => ApplyProxyEnabled();
         ApplyProxyEnabled();
 
-        _chkAutoStart = MakeCheck("开机自动启动本程序", settings.AutoStart, new Point(24, 316));
+        // 合并勾选：开机自启 + 自动登录 = 一个勾选框（勾上即全自动进大屏）
+        _chkAutoLogin = MakeCheck("开机自动启动并登录（有账号信息就自动进大屏）",
+            settings.AutoStart && settings.AutoLogin, new Point(24, 316));
         _chkKeepLogin = MakeCheck("保留登录信息（下次打开免登录）", settings.KeepLogin, new Point(24, 344));
-        _chkAutoLogin = MakeCheck("启动时自动登录（有记住的账号就直接进入大屏）", settings.AutoLogin, new Point(24, 372));
+
+        // 自动登录依赖已保存的账号：勾上"开机自动启动并登录"时强制保留登录信息并锁定
+        void ApplyAutoLoginLink()
+        {
+            if (_chkAutoLogin.Checked)
+            {
+                _chkKeepLogin.Checked = true;
+                _chkKeepLogin.Enabled = false;
+            }
+            else
+            {
+                _chkKeepLogin.Enabled = true;
+            }
+        }
+        _chkAutoLogin.CheckedChanged += (_, _) => ApplyAutoLoginLink();
+        ApplyAutoLoginLink();
 
         // 记住的账号（登录页自动填写；可手动删除）
         var saved = CredentialStore.TryGet();
@@ -220,11 +236,13 @@ public class SettingsDialog : Form
                 DisableGpu = _cfg.DisableGpu,
                 ExtraArgs = _cfg.ExtraArgs
             };
+            // 合并勾选：开机自启 = 自动登录 = 同一个勾选框；自动登录时强制保留登录信息
+            var autoOn = _chkAutoLogin.Checked;
             ResultSettings = new KioskSettings
             {
-                AutoStart = _chkAutoStart.Checked,
-                KeepLogin = _chkKeepLogin.Checked,
-                AutoLogin = _chkAutoLogin.Checked
+                AutoStart = autoOn,
+                AutoLogin = autoOn,
+                KeepLogin = autoOn || _chkKeepLogin.Checked
             };
             DialogResult = DialogResult.OK;
             Close();
@@ -236,7 +254,7 @@ public class SettingsDialog : Form
             lblTitle, lblMode, _cardCockpit, _cardWeather,
             lblUrl, lblCockpit, _txtCockpit, lblWeather, _txtWeather,
             lblProxy, _txtProxy, _swProxy, lblProxySwitch, lblProxyTip,
-            _chkAutoStart, _chkKeepLogin, _chkAutoLogin, lblSaved, btnClearCred, tip,
+            _chkAutoLogin, _chkKeepLogin, lblSaved, btnClearCred, tip,
             btnAbout, btnSave, btnCancel
         });
 

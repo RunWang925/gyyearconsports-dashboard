@@ -12,7 +12,7 @@
 
 **Windows 大屏壳程序**：C#/.NET 8 WinForms + WebView2，全屏展示公司内网帆软 BI（帆软 FineReport 决策平台，内网部署，真实地址不入库）的"驾驶舱大屏"和"天气大屏"两块数据大屏，替代浏览器 F11 方案。内置帆软风格登录窗、会话保持、开机自启、看门狗、公网代理地址切换。
 
-- 项目名：`DashboardKiosk`（程序显示名定义在 Config.cs `Title`；文档统一称"帆软BI数据大屏"，版本 2.2.0）
+- 项目名：`DashboardKiosk`（程序显示名定义在 Config.cs `Title`；文档统一称"帆软BI数据大屏"，版本 2.2.1）
 - 账号：帆软决策平台测试账号（凭据不入库，见本地测试记录）
 
 ## 2. 技术栈与硬性约束
@@ -44,7 +44,7 @@
 | `Program.cs` | 55 | 入口 | `--watch` 看门狗模式、`--uninstall` 卸载、单实例互斥 `Local\DashboardKioskMutex`、`AppPaths.Ensure` |
 | `MainForm.cs` | ~1100 | **核心** | 全屏切换、登录流程编排、设置保存、Cookie/会话管理、全屏保活 Timer、过渡遮罩、诊断能力 |
 | `LoginForm.cs` | ~800 | 登录窗 | 帆软浅色风格自绘：左侧蓝渐变栏(logo+模式)、右侧下划线输入行、记住密码勾选、齿轮"设置"按钮在登录按钮正下方居中 |
-| `SettingsDialog.cs` | ~520 | 设置弹窗 | 模式卡片(选中蓝描边+对勾)、驾驶舱/天气地址、**代理地址 + 滑动开关 `ToggleSwitch`（默认关）**、开机自启、保留登录、**启动时自动登录（v2.2.0）**、删账号记录；`ConfigUpdater` 也在此文件（支持 string/bool 字段增量写回） |
+| `SettingsDialog.cs` | ~520 | 设置弹窗 | 模式卡片(选中蓝描边+对勾)、驾驶舱/天气地址、**代理地址 + 滑动开关 `ToggleSwitch`（默认关）**、**开机自动启动并登录（v2.2.1 合并勾选：勾上=AutoStart+AutoLogin+强制 KeepLogin，并禁用保留登录框）**、保留登录、删账号记录；`ConfigUpdater` 也在此文件（支持 string/bool 字段增量写回） |
 | `AboutDialog.cs` | ~300 | 关于弹窗 | 内含 `HelpForm`（分节帮助，RichTextBox 浅色） |
 | `Config.cs` | 125 | 配置 | `AppConfig`：mode/cockpitUrl/weatherUrl/**proxyUrl + proxyEnabled**/useDirectEntry/...；**`Url` 属性：`ProxyEnabled` 且 proxyUrl 非空才返回 proxyUrl**（否则走当前模式内网地址） |
 | `SettingsStore.cs` | 72 | settings.json + 开机自启注册表（HKCU Run）；`KioskSettings`：AutoStart / KeepLogin / **AutoLogin（v2.2.0，QQ 式自动登录）** |
@@ -124,11 +124,11 @@
 - 登录→全屏→退出全屏→退出登录全链路无黑屏（根因已修：RecreateHandle 黑屏 + 重新登录后主窗未 Show）
 - 帆软浅色风格登录窗、浅色设置/关于弹窗、齿轮"设置"按钮（登录按钮正下方居中）
 - 退出登录/删账号语义、模式即时刷新、公网代理开关（默认关，实测开关切换正常）
-- **自动登录（v2.2.0，实测通过）**：退出账号后第二天重启，无需人工点登录，冷启动自动登录直达全屏（约 7 秒）；登录失败回落登录窗
+- **自动登录（v2.2.0，实测通过；v2.2.1 与开机自启合并为一个勾选框）**：退出账号后第二天重启，无需人工点登录，冷启动自动登录直达全屏（约 7 秒）；登录失败回落登录窗
 
 **待办：**
 1. 公网代理功能跨公网环境实测
-2. 如需新安装包：先 publish 再 Inno Setup 编译 setup.iss（AppVersion 已同步 2.2.0；dist 里的 2.1.2 安装包是上一版）
+2. 如需新安装包：先 publish 再 Inno Setup 编译 setup.iss（AppVersion 已同步 2.2.1）
 3. **部署限制（长期有效）**：exe 无代码签名，Win11「智能应用控制」会硬拦截（无"仍要运行"）→ 客户机需关闭该功能，详见使用说明 FAQ；自用可不签名
 
 ## 9. 修改后如何交付（标准流程）

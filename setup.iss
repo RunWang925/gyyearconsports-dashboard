@@ -6,9 +6,9 @@
 
 [Setup]
 AppName=贵渝意尔康体育数据大屏
-AppVersion=2.2.0
-AppVerName=贵渝意尔康体育数据大屏 2.1.2
-VersionInfoVersion=2.2.0
+AppVersion=2.2.1
+AppVerName=贵渝意尔康体育数据大屏 2.2.1
+VersionInfoVersion=2.2.1
 AppPublisher=Run
 ; 64 位安装模式：{autopf} 解析为 C:\Program Files
 ArchitecturesInstallIn64BitMode=x64compatible
