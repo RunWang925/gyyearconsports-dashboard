@@ -31,7 +31,7 @@ cd gyyearconsports-dashboard
 
 - **Windows 大屏壳程序**：C# 12 / .NET 8 WinForms + WebView2（net8.0-windows），全屏展示帆软 BI（FineReport）的"驾驶舱大屏"和"天气大屏"，替代浏览器 F11。
 - 单项目约 16 个 .cs 文件，无前端、无数据库；发布为自包含单文件 exe，Inno Setup 7 打安装包。
-- 当前版本 v2.1.2，安装包在 `dist/意尔康大屏程序安装包.exe`（正式版，不轻易重打）。
+- 当前版本 v2.2.1，安装包在 `dist/意尔康大屏程序安装包-<版本>.exe`（如 意尔康大屏程序安装包-2.2.1.exe）。
 
 ## 硬性约束（违反任何一条都可能造成客户现场事故）
 

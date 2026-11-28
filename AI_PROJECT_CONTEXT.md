@@ -22,7 +22,7 @@
 | 语言/框架 | C# 12，.NET 8，`net8.0-windows`，WinForms（无 WPF、无前端框架） |
 | 网页内核 | NuGet `Microsoft.Web.WebView2` 1.0.2903.40（系统 Edge 运行时） |
 | 发布方式 | 自包含单文件 exe：`dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableCompressionInSingleFile=true` |
-| 安装包 | Inno Setup 7（`C:\Program Files\Inno Setup 7\ISCC.exe`），脚本 `setup.iss`，安装到 `{autopf}\YuErKangDashboard`；源文件取 `dist\单程序测试\`，输出 `installer\意尔康大屏程序安装包.exe` |
+| 安装包 | Inno Setup 7（`C:\Program Files\Inno Setup 7\ISCC.exe`），脚本 `setup.iss`，安装到 `{autopf}\YuErKangDashboard`；源文件取 `dist\单程序测试\`，输出 `installer\意尔康大屏程序安装包-<版本>.exe`（AppVersion 与 OutputBaseFilename 同步改） |
 | exe 图标 | csproj `<ApplicationIcon>` 默认指向 `icon_cockpit.ico`（勿删兜底行）；未嵌图标会导致快捷方式/任务栏空白 |
 | UI 语言 | 全中文，全部自绘控件（无图片资源，图标 .ico 仅用于窗体） |
 

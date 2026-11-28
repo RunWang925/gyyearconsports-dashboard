@@ -77,7 +77,7 @@ dotnet publish -c Release -r win-x64 --self-contained true ^
 
 ### 打安装包
 
-用 Inno Setup 7 编译 `setup.iss`（记得同步改 `AppVersion` 与 csproj `<Version>` 一致），输出 `installer/意尔康大屏程序安装包.exe`。
+用 Inno Setup 7 编译 `setup.iss`（记得同步改 `AppVersion` 与 csproj `<Version>` 一致），输出 `installer/意尔康大屏程序安装包-<版本>.exe`（如 意尔康大屏程序安装包-2.2.1.exe）。
 
 ## 目录结构
 
@@ -91,7 +91,7 @@ DashboardKiosk/
 ├── skills/yuerkang-dashboard/   ★ AI 接手技能包（发给 AI 助手即可自动接手本项目）
 ├── docs/                 界面截图（login.png 登录窗 / settings.png 设置弹窗）
 ├── dist/
-│   ├── 意尔康大屏程序安装包.exe   ★ 最终交付：安装版（v2.2.1）
+│   ├── 意尔康大屏程序安装包-2.2.1.exe ★ 最终交付：安装版
 │   └── 使用说明.txt              ★ 给最终用户的说明书
 ├── 开发维护手册.md        面向维护者：环境搭建、编译、打包、踩坑记录
 ├── AI_PROJECT_CONTEXT.md  AI 交接文档：架构、文件地图、核心链路、血泪坑
